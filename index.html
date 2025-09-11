@@ -6,6 +6,95 @@
     <title>Текст песни</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #FF6A00, #FFB200); /* Градиентный фон */
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); /* Размытие фона */
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .lyrics-container {
+            font-size: 26px;
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Темный фон с прозрачностью */
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            transition: opacity 1s ease-out;
+            opacity: 0;
+        }
+
+        .lyrics-container.active {
+            opacity: 1;
+        }
+
+        .lyrics {
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        .close-button {
+            padding: 12px 25px;
+            background-color: #ff4e4e;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-button:hover {
+            background-color: #e84e4e;
+        }
+
+        .close-button:active {
+            transform: scale(0.98);
+        }
+
+        audio {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            background-color: #ff4e4e;
+            border-radius: 50%;
+        }
+
+        audio::-webkit-media-controls-progress-bar {
+            height: 8px;
+            background-color: #ff4e4e;
+            border-radius: 10px;
+        }
+
+        audio::-webkit-media-controls-volume-slider {
+            background-color: #ff4e4e;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -23,6 +112,7 @@
     </div>
 
     <script>
+        // Тексты песен с таймингами
         const lyrics = [
             { time: 0, text: "Я тебе кое-что сказать хочу" },
             { time: 2, text: "Твои широкие зрачки говорят о любви" },
@@ -90,5 +180,3 @@
     </script>
 </body>
 </html>
-
-
