@@ -1,8 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-image: url('image.png'); /* Путь к картинке */
-    background-size: cover; /* Фоновое изображение будет покрывать весь экран */
-    background-position: center; /* Центрируем изображение */
+    background: linear-gradient(to right, #FF6A00, #FFB200); /* Градиентный фон */
     color: white;
     text-align: center;
     padding-top: 50px;
@@ -12,6 +10,14 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Размытие фона */
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .lyrics-container {
