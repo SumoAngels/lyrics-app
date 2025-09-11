@@ -1,6 +1,8 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #FF6A00, #FFB200); /* Градиентный фон */
+    background-image: url('image.png'); /* Путь к картинке */
+    background-size: cover; /* Фоновое изображение будет покрывать весь экран */
+    background-position: center; /* Центрируем изображение */
     color: white;
     text-align: center;
     padding-top: 50px;
@@ -10,13 +12,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-h1 {
-    font-size: 50px;
-    font-weight: bold;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-    margin-bottom: 40px;
 }
 
 .lyrics-container {
@@ -69,8 +64,17 @@ audio {
     border-radius: 5px;
 }
 
-/* Стили для прогресс-бара */
 audio::-webkit-media-controls-play-button {
     background-color: #ff4e4e;
     border-radius: 50%;
+}
+
+audio::-webkit-media-controls-progress-bar {
+    height: 8px;
+    background-color: #ff4e4e;
+    border-radius: 10px;
+}
+
+audio::-webkit-media-controls-volume-slider {
+    background-color: #ff4e4e;
 }
