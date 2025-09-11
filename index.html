@@ -164,6 +164,7 @@
         audioElement.ontimeupdate = function () {
             const currentTime = audioElement.currentTime;
 
+            // Если текущее время превышает или равно времени начала следующей строки
             if (currentLyric < lyrics.length && currentTime >= lyrics[currentLyric].time) {
                 let lyricElement = document.createElement("p");
                 lyricElement.innerHTML = lyrics[currentLyric].text;
