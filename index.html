@@ -9,19 +9,20 @@
 </head>
 <body>
 
-    <div class="lyrics-container" id="lyrics-container">
-        <div class="lyrics" id="lyrics"></div>
+    <div class="glass-container">
+        <div class="lyrics-container" id="lyrics-container">
+            <div class="lyrics" id="lyrics"></div>
+        </div>
+
+        <audio id="audio" controls autoplay>
+            <source src="song.mp3" type="audio/mp3">
+            Ваш браузер не поддерживает воспроизведение аудио.
+        </audio>
+
+        <button class="close-button" onclick="closeApp()">Закрыть</button>
     </div>
 
-    <audio id="audio" controls autoplay>
-        <source src="song.mp3" type="audio/mp3">
-        Ваш браузер не поддерживает воспроизведение аудио.
-    </audio>
-
-    <button class="close-button" onclick="closeApp()">Закрыть</button>
-
     <script>
-        // Тексты песен с таймингами
         const lyrics = [
             { time: 0, text: "Я тебе кое-что сказать хочу" },
             { time: 2, text: "Твои широкие зрачки говорят о любви" },
