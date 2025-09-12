@@ -205,6 +205,19 @@
             const percent = (audio.currentTime / audio.duration) * 100;
             progress.style.width = percent + "%";
             time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+
+            // подсветка и вывод строк
+            if (currentLyric < lyrics.length && audio.currentTime >= lyrics[currentLyric].time) {
+                let lyricElement = document.createElement("p");
+                lyricElement.innerHTML = lyrics[currentLyric].text;
+                lyricsElement.appendChild(lyricElement);
+                lyricsContainer.classList.add("active");
+
+                if (currentLyric > 0) {
+                    lyricsElement.removeChild(lyricsElement.firstChild);
+                }
+                currentLyric++;
+            }
         });
 
         progressContainer.addEventListener('click', (e) => {
@@ -218,7 +231,7 @@
             window.close();
         }
 
-    <script>
+        // Лирика
         const lyrics = [
             { time: 0, text: "Я тебе кое-что сказать хочу" },
             { time: 2, text: "Твои широкие зрачки говорят о любви" },
@@ -260,21 +273,6 @@
         let currentLyric = 0;
         const lyricsElement = document.getElementById('lyrics');
         const lyricsContainer = document.getElementById('lyrics-container');
-
-        audio.ontimeupdate = function () {
-            const currentTime = audio.currentTime;
-            if (currentLyric < lyrics.length && currentTime >= lyrics[currentLyric].time) {
-                let lyricElement = document.createElement("p");
-                lyricElement.innerHTML = lyrics[currentLyric].text;
-                lyricsElement.appendChild(lyricElement);
-                lyricsContainer.classList.add("active");
-
-                if (currentLyric > 0) {
-                    lyricsElement.removeChild(lyricsElement.firstChild);
-                }
-                currentLyric++;
-            }
-        };
     </script>
 </body>
 </html>
