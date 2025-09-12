@@ -6,95 +6,6 @@
     <title>Текст песни</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #FF6A00, #FFB200); /* Градиентный фон */
-            color: white;
-            text-align: center;
-            padding-top: 50px;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .glass-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); /* Размытие фона */
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .lyrics-container {
-            font-size: 26px;
-            margin: 20px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Темный фон с прозрачностью */
-            border-radius: 15px;
-            width: 80%;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-            transition: opacity 1s ease-out;
-            opacity: 0;
-        }
-
-        .lyrics-container.active {
-            opacity: 1;
-        }
-
-        .lyrics {
-            margin: 0;
-            padding: 5px 0;
-        }
-
-        .close-button {
-            padding: 12px 25px;
-            background-color: #ff4e4e;
-            color: white;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 10px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .close-button:hover {
-            background-color: #e84e4e;
-        }
-
-        .close-button:active {
-            transform: scale(0.98);
-        }
-
-        audio {
-            margin-top: 30px;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 5px;
-        }
-
-        audio::-webkit-media-controls-play-button {
-            background-color: #ff4e4e;
-            border-radius: 50%;
-        }
-
-        audio::-webkit-media-controls-progress-bar {
-            height: 8px;
-            background-color: #ff4e4e;
-            border-radius: 10px;
-        }
-
-        audio::-webkit-media-controls-volume-slider {
-            background-color: #ff4e4e;
-        }
-
-    </style>
 </head>
 <body>
 
@@ -104,7 +15,7 @@
         </div>
 
         <audio id="audio" controls autoplay>
-            <source src="song1.mp3" type="audio/mp3"> <!-- Заменить на свой файл песни -->
+            <source src="song.mp3" type="audio/mp3">
             Ваш браузер не поддерживает воспроизведение аудио.
         </audio>
 
@@ -113,47 +24,41 @@
 
     <script>
         const lyrics = [
-            { time: 0, text: "Я не знаю, что сказать тебе при встрече" },
-            { time: 5, text: "Не могу найти хотя бы пары слов" },
-            { time: 10, text: "А недолгий вечер, а недолгий вечер" },
-            { time: 15, text: "Скоро станет ночью темною без снов" },
-            { time: 20, text: "А недолгий вечер, а недолгий вечер" },
-            { time: 25, text: "Станет ночью темною без снов" },
-
-            { time: 30, text: "И снова седая ночь" },
-            { time: 35, text: "И только ей доверяю я" },
-            { time: 40, text: "Знает седая ночь не все мои тайны" },
-            { time: 45, text: "Но даже и ты помочь" },
-            { time: 50, text: "Не можешь, и темнота твоя" },
-            { time: 55, text: "Мне одному совсем, совсем ни к чему" },
-
-            { time: 60, text: "Знаешь ты без слов, тебе давно все ясно" },
-            { time: 65, text: "Только прячешь взгляд своих счастливых глаз" },
-            { time: 70, text: "И опять напрасно, и опять напрасно" },
-            { time: 75, text: "Собираюсь я все рассказать сейчас" },
-            { time: 80, text: "И опять напрасно, и опять напрасно" },
-            { time: 85, text: "Собираюсь все сказать сейчас" },
-
-            { time: 90, text: "И снова седая ночь" },
-            { time: 95, text: "И только ей доверяю я" },
-            { time: 100, text: "Знает седая ночь не все мои тайны" },
-            { time: 105, text: "Но даже и ты помочь" },
-            { time: 110, text: "Не можешь, и темнота твоя" },
-            { time: 115, text: "Мне одному совсем, совсем ни к чему" },
-
-            { time: 120, text: "Снова вижу я тебя, который вечер" },
-            { time: 125, text: "Снова вижу блеск твоих счастливых глаз" },
-            { time: 130, text: "Но с тобой не вместе, но с тобой не вместе" },
-            { time: 135, text: "Снова будем мы и завтра и сейчас" },
-            { time: 140, text: "Но с тобой не вместе, но с тобой не вместе" },
-            { time: 145, text: "Будем мы и завтра и сейчас" },
-
-            { time: 150, text: "И снова седая ночь" },
-            { time: 155, text: "И только ей доверяю я" },
-            { time: 160, text: "Знает седая ночь не все мои тайны" },
-            { time: 165, text: "Но даже и ты помочь" },
-            { time: 170, text: "Не можешь, и темнота твоя" },
-            { time: 175, text: "Мне одному совсем, совсем ни к чему" }
+            { time: 0, text: "Я тебе кое-что сказать хочу" },
+            { time: 2, text: "Твои широкие зрачки говорят о любви" },
+            { time: 7, text: "И отражают солнце" },
+            { time: 10, text: "Ты прячешь за спиной мои любимые цветы" },
+            { time: 14, text: "Не сумев спрятать эмоции" },
+            { time: 17, text: "Мы идеальная пара, самые классные Force'ы" },
+            { time: 21, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
+            { time: 24, text: "Мы идеальная пара, самые классные Force'ы" },
+            { time: 28, text: "Ты любишь меня? (Конечно!) Какие вопросы?" },
+            { time: 32, text: "Я расплываюсь в улыбке, как дурак" },
+            { time: 36, text: "Как шоколадка на лобовом окне" },
+            { time: 39, text: "Тебе срывает крышу, мне рвёт чердак" },
+            { time: 43, text: "Зову тебя чудак, а ты меня малышка" },
+            { time: 46, text: "Я расплываюсь в улыбке, как дурак" },
+            { time: 50, text: "Как шоколадка на лобовом окне" },
+            { time: 54, text: "Тебе срывает крышу, мне рвёт чердак" },
+            { time: 57, text: "Зову тебя чудак, а ты меня малышка" },
+            { time: 60, text: "Твой поцелуй любви устал быть воздушным" },
+            { time: 64, text: "Я держу себя в руках, но жаль, что не в твоих" },
+            { time: 67, text: "Ты нравишься мне, даже когда ты душный" },
+            { time: 71, text: "Я обожаю твои трещинки и твои целости" },
+            { time: 76, text: "Мы идеальная пара, самые классные Force'ы" },
+            { time: 81, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
+            { time: 82, text: "Мы идеальная пара, самые классные Force'ы" },
+            { time: 86, text: "Ты любишь меня? Конечно, какие вопросы?" },
+            { time: 89, text: "Я расплываюсь в улыбке, как дурак" },
+            { time: 93, text: "Как шоколадка на лобовом окне" },
+            { time: 96, text: "Тебе срывает крышу, мне рвёт чердак" },
+            { time: 100, text: "Зову тебя чудак, а ты меня малышка" },
+            { time: 104, text: "Я расплываюсь в улыбке, как дурак" },
+            { time: 108, text: "Как шоколадка на лобовом окне" },
+            { time: 111, text: "Тебе срывает крышу, мне рвёт чердак" },
+            { time: 114, text: "Зову тебя чудак, а ты меня малышка" },
+            { time: 118, text: "Я расплываюсь" },
+            { time: 120, text: "Это лето без тебя бесцветное" }
         ];
 
         let currentLyric = 0;
@@ -164,7 +69,6 @@
         audioElement.ontimeupdate = function () {
             const currentTime = audioElement.currentTime;
 
-            // Если текущее время превышает или равно времени начала следующей строки
             if (currentLyric < lyrics.length && currentTime >= lyrics[currentLyric].time) {
                 let lyricElement = document.createElement("p");
                 lyricElement.innerHTML = lyrics[currentLyric].text;
@@ -186,3 +90,4 @@
     </script>
 </body>
 </html>
+
