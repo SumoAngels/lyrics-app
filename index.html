@@ -43,7 +43,7 @@
       margin: 5px 0;
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     .lyrics p.show {
@@ -58,7 +58,6 @@
       text-shadow: 0 0 12px rgba(255, 211, 105, 0.8);
     }
 
-    /* 🎵 Плеер */
     .player {
       display: flex;
       align-items: center;
@@ -125,7 +124,7 @@
       height: 14px;
       border-radius: 50%;
       background: white;
-      box-shadow: 0px 0px 8px rgba(255,255,255,0.9);
+      box-shadow: 0 0 8px rgba(255,255,255,0.9);
     }
 
     .time {
@@ -135,29 +134,33 @@
       color: #fff;
     }
 
-    /* Ссылки TikTok */
-    .social-links {
-      margin-top: 25px;
+    .song-selector {
       display: flex;
+      gap: 15px;
+      margin-top: 20px;
       justify-content: center;
-      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    .social-links a {
-      text-decoration: none;
-      color: #FFD369;
-      font-weight: bold;
-      padding: 8px 15px;
-      border: 2px solid #FFD369;
+    .song-btn {
+      width: 100px;
+      height: 50px;
       border-radius: 15px;
-      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #ff6a00, #ffb200);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .social-links a:hover {
-      background: #FFD369;
-      color: #000;
-      box-shadow: 0 4px 15px rgba(255, 211, 105, 0.5);
+    .song-btn:hover, .song-btn.active {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.5);
     }
+
   </style>
 </head>
 <body>
@@ -167,7 +170,6 @@
       <div class="lyrics" id="lyrics"></div>
     </div>
 
-    <!-- 🎵 Плеер -->
     <div class="player">
       <button class="play-btn" id="play-btn">
         <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -179,14 +181,13 @@
       <div class="time" id="time">0:00 / 0:00</div>
     </div>
 
-    <!-- Ссылки на TikTok -->
-    <div class="social-links">
-      <a href="https://www.tiktok.com" target="_blank">TikTok "TEST LINK"</a>
+    <!-- Кнопки выбора песен -->
+    <div class="song-selector">
+      <button class="song-btn active" data-song="1">Песня 1</button>
+      <button class="song-btn" data-song="2">Песня 2</button>
     </div>
 
-    <audio id="audio">
-      <source src="song.mp3" type="audio/mp3">
-    </audio>
+    <audio id="audio"></audio>
   </div>
 
   <script>
@@ -199,12 +200,111 @@
     const time = document.getElementById('time');
     const lyricsElement = document.getElementById('lyrics');
 
-    function formatTime(seconds) {
-      const m = Math.floor(seconds / 60);
-      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
+    let lyrics = [];
+    let currentLyric = 0;
+
+    // Треки и лирика
+    const songs = {
+      1: {
+        src: "song.mp3",
+        lyrics: [
+          { time: 0, text: "Я тебе кое-что сказать хочу" },
+          { time: 2, text: "Твои широкие зрачки говорят о любви" },
+          { time: 7, text: "И отражают солнце" },
+          { time: 10, text: "Ты прячешь за спиной мои любимые цветы" },
+          { time: 14, text: "Не сумев спрятать эмоции" },
+          { time: 17, text: "Мы идеальная пара, самые классные Force'ы" },
+          { time: 21, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
+          { time: 24, text: "Мы идеальная пара, самые классные Force'ы" },
+          { time: 28, text: "Ты любишь меня? (Конечно!) Какие вопросы?" },
+          { time: 32, text: "Я расплываюсь в улыбке, как дурак" },
+          { time: 36, text: "Как шоколадка на лобовом окне" },
+          { time: 39, text: "Тебе срывает крышу, мне рвёт чердак" },
+          { time: 43, text: "Зову тебя чудак, а ты меня малышка" },
+          { time: 46, text: "Я расплываюсь в улыбке, как дурак" },
+          { time: 50, text: "Как шоколадка на лобовом окне" },
+          { time: 54, text: "Тебе срывает крышу, мне рвёт чердак" },
+          { time: 57, text: "Зову тебя чудак, а ты меня малышка" },
+          { time: 60, text: "Твой поцелуй любви устал быть воздушным" },
+          { time: 64, text: "Я держу себя в руках, но жаль, что не в твоих" },
+          { time: 67, text: "Ты нравишься мне, даже когда ты душный" },
+          { time: 71, text: "Я обожаю твои трещинки и твои целости" },
+          { time: 76, text: "Мы идеальная пара, самые классные Force'ы" },
+          { time: 81, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
+          { time: 82, text: "Мы идеальная пара, самые классные Force'ы" },
+          { time: 86, text: "Ты любишь меня? Конечно, какие вопросы?" },
+          { time: 89, text: "Я расплываюсь в улыбке, как дурак" },
+          { time: 93, text: "Как шоколадка на лобовом окне" },
+          { time: 96, text: "Тебе срывает крышу, мне рвёт чердак" },
+          { time: 100, text: "Зову тебя чудак, а ты меня малышка" },
+          { time: 104, text: "Я расплываюсь в улыбке, как дурак" },
+          { time: 108, text: "Как шоколадка на лобовом окне" },
+          { time: 111, text: "Тебе срывает крышу, мне рвёт чердак" },
+          { time: 114, text: "Зову тебя чудак, а ты меня малышка" },
+          { time: 118, text: "Я расплываюсь" },
+          { time: 120, text: "Это лето без тебя бесцветное" }
+        ]
+      },
+      2: {
+        src: "song1.mp3",
+        lyrics: [
+          { time: 0, text: "Она как демон с ангелой глазами" },
+          { time: 2.54, text: "Верит, что любовь залечит ранны" },
+          { time: 6.2, text: "Но сердце украшают эти шрамы" },
+          { time: 9.36, text: "И самые глубокие оставит ещё одна любовь" },
+          { time: 15.42, text: "Я знаю, знаю, ты не думала мозгами" },
+          { time: 19.2, text: "Когда ты закрывала многие штальты" },
+          { time: 22.7, text: "Впитывала все мои повадки, что притворится мной" },
+          { time: 42.64, text: "Я не могу сказать, могу показать" },
+          { time: 46.96, text: "Каждого, кто меня знал, но поменялось мнение" },
+          { time: 50.8, text: "И он пропал, как волна, что разбивается, стян искал" },
+          { time: 55.24, text: "Да, я теперь один, ты теперь одна" },
+          { time: 58.06, text: "Как будто не было тебя, не было меня" },
+          { time: 61.66, text: "Да, я теперь один, ты теперь одна" },
+          { time: 64.74, text: "Так больше, лучше для тебя, не для меня" },
+          { time: 67.16, text: "Она как демон с ангелой глазами" },
+          { time: 70.06, text: "Верит, что любовь залечит ранны" },
+          { time: 72.94, text: "Но сердце украшают эти шрамы" },
+          { time: 76.04, text: "И самые глубокие оставит ещё одна любовь" },
+          { time: 82.08, text: "Я знаю, знаю, ты не думала мозгами" },
+          { time: 85.96, text: "Когда ты закрывала многие штальты" },
+          { time: 89.96, text: "Впитывала все мои повадки, что притворится мной" },
+          { time: 94.48, text: "Е, е, её любовь" }
+        ]
+      }
+    };
+
+    // Функция загрузки песни
+    function loadSong(num) {
+      audio.src = songs[num].src;
+      lyrics = songs[num].lyrics;
+      currentLyric = 0;
+      lyricsElement.innerHTML = "";
+
+      // Обновляем подсветку кнопок
+      document.querySelectorAll(".song-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      document.querySelector(`.song-btn[data-song="${num}"]`).classList.add("active");
+
+      audio.pause();
+      iconPlay.style.display = "block";
+      iconPause.style.display = "none";
+      audio.currentTime = 0;
     }
 
+    // Изначально загружаем Песню 1
+    loadSong(1);
+
+    // Кнопки выбора песни
+    document.querySelectorAll(".song-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const songNum = btn.getAttribute("data-song");
+        loadSong(songNum);
+      });
+    });
+
+    // Play / Pause
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -217,82 +317,36 @@
       }
     });
 
+    // Прогресс
     audio.addEventListener('timeupdate', () => {
       const percent = (audio.currentTime / audio.duration) * 100;
       progress.style.width = percent + "%";
-      time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      time.textContent = `${Math.floor(audio.currentTime/60)}:${String(Math.floor(audio.currentTime%60)).padStart(2,'0')} / ${Math.floor(audio.duration/60)}:${String(Math.floor(audio.duration%60)).padStart(2,'0')}`;
+
+      // Лирика
+      if (currentLyric < lyrics.length && audio.currentTime >= lyrics[currentLyric].time) {
+        let lyricElement = document.createElement("p");
+        lyricElement.textContent = lyrics[currentLyric].text;
+        lyricsElement.appendChild(lyricElement);
+        setTimeout(() => lyricElement.classList.add("show"), 50);
+
+        // Выделяем активную строку
+        const all = lyricsElement.querySelectorAll("p");
+        all.forEach(p => p.classList.remove("active"));
+        lyricElement.classList.add("active");
+
+        if (all.length > 3) lyricsElement.removeChild(all[0]);
+        currentLyric++;
+      }
     });
 
+    // Клик по прогрессу
     progressContainer.addEventListener('click', (e) => {
       const width = progressContainer.clientWidth;
       const clickX = e.offsetX;
       const duration = audio.duration;
       audio.currentTime = (clickX / width) * duration;
     });
-
-    // 🎤 Лирика
-    const lyrics = [
-      { time: 0, text: "Я тебе кое-что сказать хочу" },
-      { time: 2, text: "Твои широкие зрачки говорят о любви" },
-      { time: 7, text: "И отражают солнце" },
-      { time: 10, text: "Ты прячешь за спиной мои любимые цветы" },
-      { time: 14, text: "Не сумев спрятать эмоции" },
-      { time: 17, text: "Мы идеальная пара, самые классные Force'ы" },
-      { time: 21, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
-      { time: 24, text: "Мы идеальная пара, самые классные Force'ы" },
-      { time: 28, text: "Ты любишь меня? (Конечно!) Какие вопросы?" },
-      { time: 32, text: "Я расплываюсь в улыбке, как дурак" },
-      { time: 36, text: "Как шоколадка на лобовом окне" },
-      { time: 39, text: "Тебе срывает крышу, мне рвёт чердак" },
-      { time: 43, text: "Зову тебя чудак, а ты меня малышка" },
-      { time: 46, text: "Я расплываюсь в улыбке, как дурак" },
-      { time: 50, text: "Как шоколадка на лобовом окне" },
-      { time: 54, text: "Тебе срывает крышу, мне рвёт чердак" },
-      { time: 57, text: "Зову тебя чудак, а ты меня малышка" },
-      { time: 60, text: "Твой поцелуй любви устал быть воздушным" },
-      { time: 64, text: "Я держу себя в руках, но жаль, что не в твоих" },
-      { time: 67, text: "Ты нравишься мне, даже когда ты душный" },
-      { time: 71, text: "Я обожаю твои трещинки и твои целости" },
-      { time: 76, text: "Мы идеальная пара, самые классные Force'ы" },
-      { time: 81, text: "Ты любишь меня? Конечно, ну что за вопросы?" },
-      { time: 82, text: "Мы идеальная пара, самые классные Force'ы" },
-      { time: 86, text: "Ты любишь меня? Конечно, какие вопросы?" },
-      { time: 89, text: "Я расплываюсь в улыбке, как дурак" },
-      { time: 93, text: "Как шоколадка на лобовом окне" },
-      { time: 96, text: "Тебе срывает крышу, мне рвёт чердак" },
-      { time: 100, text: "Зову тебя чудак, а ты меня малышка" },
-      { time: 104, text: "Я расплываюсь в улыбке, как дурак" },
-      { time: 108, text: "Как шоколадка на лобовом окне" },
-      { time: 111, text: "Тебе срывает крышу, мне рвёт чердак" },
-      { time: 114, text: "Зову тебя чудак, а ты меня малышка" },
-      { time: 118, text: "Я расплываюсь" },
-      { time: 120, text: "Это лето без тебя бесцветное" }
-    ];
-
-    let currentLyric = 0;
-
-    audio.ontimeupdate = function () {
-      if (currentLyric < lyrics.length && audio.currentTime >= lyrics[currentLyric].time) {
-        let lyricElement = document.createElement("p");
-        lyricElement.textContent = lyrics[currentLyric].text;
-        lyricsElement.appendChild(lyricElement);
-
-        setTimeout(() => lyricElement.classList.add("show"), 50);
-
-        // выделяем активную строку
-        const all = lyricsElement.querySelectorAll("p");
-        all.forEach(p => p.classList.remove("active"));
-        lyricElement.classList.add("active");
-
-        // оставляем только последние 3 строки
-        if (all.length > 3) {
-          lyricsElement.removeChild(all[0]);
-        }
-
-        currentLyric++;
-      }
-    };
   </script>
 </body>
 </html>
-
