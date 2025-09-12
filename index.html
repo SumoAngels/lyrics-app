@@ -134,6 +134,30 @@
       font-weight: bold;
       color: #fff;
     }
+
+    /* Ссылки TikTok */
+    .social-links {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-links a {
+      text-decoration: none;
+      color: #FFD369;
+      font-weight: bold;
+      padding: 8px 15px;
+      border: 2px solid #FFD369;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: #FFD369;
+      color: #000;
+      box-shadow: 0 4px 15px rgba(255, 211, 105, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -153,6 +177,12 @@
         <div class="progress" id="progress"></div>
       </div>
       <div class="time" id="time">0:00 / 0:00</div>
+    </div>
+
+    <!-- Ссылки на TikTok -->
+    <div class="social-links">
+      <a href="https://www.tiktok.com/@yourusername1" target="_blank">TikTok 1</a>
+      <a href="https://www.tiktok.com/@yourusername2" target="_blank">TikTok 2</a>
     </div>
 
     <audio id="audio">
