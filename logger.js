@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const ua = req.headers["user-agent"];
   const time = new Date().toISOString();
 
-  // Лог в консоль (будет видно в Vercel Logs)
+  // Лог в консоль (видно в Vercel Logs)
   console.log(`[LOG] ${time} — IP: ${ip} — UA: ${ua}`);
 
   res.status(200).json({ success: true });
