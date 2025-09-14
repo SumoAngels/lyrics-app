@@ -45,5 +45,10 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+  // Отправляем запрос на серверный API при каждом заходе
+  fetch("/api/logger", { method: "POST" });
+</script>
 </body>
 </html>
+
