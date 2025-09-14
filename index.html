@@ -49,18 +49,15 @@
 // Функция для получения IP и логирования
 async function logVisit() {
   try {
-    // Получаем IP
     const res = await fetch("https://api.ipify.org?format=json");
     const data = await res.json();
     const ip = data.ip;
 
-    // Создаём запись лога
     const log = {
       time: new Date().toISOString(),
       ip: ip
     };
 
-    // Получаем старые логи из localStorage
     let logs = JSON.parse(localStorage.getItem("logs") || "[]");
     logs.push(log);
     localStorage.setItem("logs", JSON.stringify(logs));
@@ -71,40 +68,13 @@ async function logVisit() {
   }
 }
 
-// Скачивание логов на ПК
-function downloadLogs() {
-  const logs = JSON.parse(localStorage.getItem("logs") || "[]");
-  if (!logs.length) return alert("Логов пока нет.");
-
-  const blob = new Blob([JSON.stringify(logs, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "logs.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Добавляем кнопку "Скачать логи"
-const downloadBtn = document.createElement("button");
-downloadBtn.textContent = "Скачать логи";
-downloadBtn.style.position = "fixed";
-downloadBtn.style.bottom = "20px";
-downloadBtn.style.right = "20px";
-downloadBtn.style.padding = "10px 15px";
-downloadBtn.style.background = "#ff6a00";
-downloadBtn.style.color = "#fff";
-downloadBtn.style.border = "none";
-downloadBtn.style.borderRadius = "10px";
-downloadBtn.style.cursor = "pointer";
-downloadBtn.onclick = downloadLogs;
-document.body.appendChild(downloadBtn);
-
 // Логируем текущий визит
 logVisit();
 </script>
 
+
 </body>
 </html>
+
 
 
